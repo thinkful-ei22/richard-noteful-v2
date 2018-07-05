@@ -39,7 +39,7 @@ router.get('/:id', (req, res, next) => {
     })
     .then(results => {
       if (results[0]) {
-        res.status(200).json(results[0]);
+        res.json(results[0]);
       } else {
         next();
       }
@@ -125,9 +125,7 @@ router.delete('/:id', (req, res, next) => {
         .where('notes.id', id)
         .del();
     })
-    .then((result) => {
-      console.log(typeof result);
-      console.log(result);
+    .then(result => {
       if (result) {
         res.sendStatus(204);
       } else {
