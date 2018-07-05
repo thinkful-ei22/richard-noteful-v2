@@ -82,7 +82,6 @@ router.put('/:id', (req, res, next) => {
         .update(updateItem);
     })
     .then(() => {
-      // Using the noteId, select the note and the folder info
       return knex.select('notes.id', 'title', 'content', 'folder_id as folderId', 'folders.name as folderName')
         .from('notes')
         .leftJoin('folders', 'notes.folder_id', 'folders.id')
