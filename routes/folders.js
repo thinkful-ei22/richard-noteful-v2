@@ -60,25 +60,22 @@ router.put('/:id', (req, res, next) => {
 
 // Create a Folder accepts an object with a name and inserts it in the DB. Returns the new item along the new id.
 router.post('/', (req, res, next) => {
-  const newName = req.body.name;
-  
+  const {name} = req.body;
+  const newItem = {name};
 
-  if(!newName) {
+  if(!name) {
     const err = new Error('Missing `name` in request body');
     err.status = 400;
     return next(err);
   }
 
   knex
-    .from('folders')
-    .modify(queryBuilder => {
-      queryBuilder
-        .insert({name: newName})
-        .returning(['id','name']);
-    })
+    .insert(newItem)
+    .into('folders')
+    .returning(['id','name'])
     .then(results => {
       if (results) {
-        res.json(results);
+        res.location(`${req.originalUrl}/${results[0].id}`).status(201).json(results[0]);
       }
     })
     .catch(err => next(err));
