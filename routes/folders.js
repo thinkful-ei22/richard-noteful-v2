@@ -34,9 +34,8 @@ router.get('/:id', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
 
-  const name =  {'name': req.body.name};
-
-  console.log(name);
+  const {name} =  req.body;
+  const newFolder = {name};
 
   if(!name) {
     const err = new Error('Missing `name` in request body');
@@ -49,7 +48,7 @@ router.put('/:id', (req, res, next) => {
     .modify(queryBuilder => {
       queryBuilder
         .where('folders.id', id)
-        .update(name)
+        .update(newFolder)
         .returning(['id','name']);
     })
     .then(results => {
