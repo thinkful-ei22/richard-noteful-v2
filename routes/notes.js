@@ -13,7 +13,7 @@ const hydrateNotes = require('../utils/hydrateNotes');
 router.get('/', (req, res, next) => {
   const { searchTerm, folderId, tagId } = req.query;
   knex
-    .select('notes.id', 'title', 'content', 'folders.id as folderId', 'folders.name as folderName', 'tags.id as tagId', 'tags.name as tagName')
+    .select('notes.id')
     .from('notes')
     .leftJoin('folders', 'notes.folder_id', 'folders.id')
     .leftJoin('notes_tags', 'notes.id', 'notes_tags.note_id')
@@ -34,6 +34,16 @@ router.get('/', (req, res, next) => {
       }
     })
     .orderBy('notes.id')
+    .then(result => {
+      const test = result.map(a => a.id);
+      return knex
+        .select('notes.id', 'title', 'content', 'folders.id as folderId', 'folders.name as folderName', 'tags.id as tagId', 'tags.name as tagName')
+        .from('notes')
+        .leftJoin('folders','notes.folder_id', 'folders.id')
+        .leftJoin('notes_tags', 'notes.id', 'notes_tags.note_id')
+        .leftJoin('tags', 'tags.id', 'notes_tags.tag_id')
+        .whereIn('notes.id', test);
+    })
     .then(result => {
       if (result) {
         const hydrated = hydrateNotes(result);
