@@ -28,7 +28,11 @@ router.get('/:id', (req, res, next) => {
     .from('tags')
     .where('tags.id', id)
     .then(results => {
-      res.json(results);
+      if (results[0]) {
+        res.json(results[0]);
+      } else {
+        next();
+      }
     })
     .catch(err => next(err));
 });
@@ -76,7 +80,11 @@ router.put('/:id', (req, res, next) => {
     .update(newItem)
     .returning(['id','name'])
     .then(results => {
-      res.json(results);
+      if (results[0]){
+        res.json(results[0]);
+      } else {
+        next();
+      }
     })
     .catch(err => next(err));
 });

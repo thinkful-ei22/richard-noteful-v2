@@ -1,9 +1,9 @@
 -- psql -U dev -d dev-noteful-app -f ./db/noteful-app.1.sql
 
-DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS notes_tags;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS folders;
-DROP TABLE IF EXISTS notes_tags;
+DROP TABLE IF EXISTS tags;
 
 CREATE TABLE tags (
   id serial PRIMARY KEY,
