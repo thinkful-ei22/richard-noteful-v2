@@ -22,13 +22,9 @@ router.get('/', (req, res, next) => {
       if (searchTerm) {
         queryBuilder.where('title', 'like', `%${searchTerm}%`);
       }
-    })
-    .modify(function (queryBuilder) {
       if (folderId) {
         queryBuilder.where('folder_id', folderId);
       }
-    })
-    .modify(function (queryBuilder) {
       if (tagId) {
         queryBuilder.where('tag_id', tagId);
       }
