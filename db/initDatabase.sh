@@ -1,0 +1,1 @@
+psql -U dev -d dev-noteful-app -f ./db/noteful-app.1.sql
